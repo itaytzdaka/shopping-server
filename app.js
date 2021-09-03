@@ -1,4 +1,10 @@
-global.config = require("./config.json"); // Load once config.json file.
+// global.config = require("./config.json"); // Load once config.json file.
+if (process.env.PORT) {
+    global.config = require("./config-prod");
+}
+else {
+    global.config = require("./config-dev");
+}
 
 // Connect once to MongoDB:
 require("./data-access-layer/dal");
@@ -6,6 +12,7 @@ require("./data-access-layer/dal");
 
 const express = require("express"); // Get Express.
 const cors = require("cors");
+const path = require("path");
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
 
@@ -15,9 +22,12 @@ if (!fs.existsSync("./uploads")) {
 }
 
 const server = express(); // Create the server.
-server.use(express.static(__dirname)); // "/" ==> "index.html"
+// server.use(express.static(__dirname)); // "/" ==> "index.html"
 server.use(cors());
 server.use(fileUpload());
+
+server.use(express.static(path.join(__dirname, "./_front-end"))); 
+server.use(express.static(path.join(__dirname, "./uploads"))); 
 
 const productsController = require("./controllers/products-controller"); // Get the Controller.
 const citiesController = require("./controllers/cities-controller"); // Get the Controller.
@@ -41,4 +51,11 @@ server.use("/api/invites", invitesController); // If client request the root add
 server.use("/api/upload-image", imageController); // If client request the root address - give the control to productsController router.
 server.use("*", (request, response) => response.sendStatus(404)); // On any other route - return 404 error.
 
-server.listen(3000, () => console.log("Listening on http://localhost:3000")); // Load server to the air.
+
+server.use("*", (request, response) => {
+    response.sendFile(path.join(__dirname, "./_front-end/index.html"));
+});
+
+// Start the server:
+const port = process.env.PORT || 3000;
+server.listen(port, () => console.log(`Listening on port ${port}`));

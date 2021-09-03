@@ -1,0 +1,11 @@
+{
+    "isProduction":true,
+    "isDevelopment": false,
+    "mongodb": {
+        
+        "connectionString": "mongodb+srv://Itay:54921812iI@cluster0.jiwj5.mongodb.net/shippudenIL?retryWrites=true&w=majority"
+    },
+    "oldConnections":{
+        "azureMongoDB": "mongodb://mongodb-shippudenil:mmzaSr0CT3HVygFcmoWbDzOhdbmWfpH5Maoh12PmM4Ca7tZpmmZ1RDqI1QOXAdUD6a7OnnErHGV1UWrhKeX01g==@mongodb-shippudenil.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@mongodb-shippudenil@"
+    }
+}
