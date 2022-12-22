@@ -39,13 +39,15 @@ const jwt = require("jsonwebtoken");
 //     });
 // }
 
-function isLoggedIn(request, response, next) {
-    if(!request.session || !request.session.user){
-        response.status(401).send("You are not logged-in"); 
+function isAdmin(request, response, next) {
+    if(request.session.user.isAdmin){
+        next()
     }
 
-    next()
+    else{
+     response.status(401).send("You are not Admin"); 
+    }
 }
 
 
-module.exports = isLoggedIn;
+module.exports = isAdmin;

@@ -1,6 +1,7 @@
 const express = require("express");
 const categoriesLogic = require("../business-logic/categories-logic");
 const Category = require("../models/category");
+const isLoggedIn = require("../middleware/is-logged-in");
 
 const router = express.Router();
 
@@ -15,8 +16,8 @@ router.get("/", async (request, response) => {
     }
 });
 
-// POST category - http://localhost:3000/api/cities
-router.post("/", async (request, response) => {
+// POST category - http://localhost:3000/api/categories
+router.post("/", isLoggedIn, async (request, response) => {
     try {
         const category = new Category(request.body);
 

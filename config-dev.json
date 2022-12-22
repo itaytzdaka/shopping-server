@@ -5,7 +5,7 @@
         "connectionString": "mongodb://localhost:27017/Northwind"
     },
     "jwt": {
-        "secretKey": ""
+        "secretKey": "jwtSecretKey"
     }
 
 

@@ -2,6 +2,7 @@ const express = require("express");
 const productsLogic = require("../business-logic/products-logic");
 const Product = require("../models/product");
 const isLoggedIn = require("../middleware/is-logged-in");
+const isAdmin = require("../middleware/is-admin");
 const { route } = require("./invites-controller");
 
 const router = express.Router();
@@ -18,7 +19,7 @@ router.get("/", async (request, response) => {
     }
 });
 
-router.get("/count",async (request,response)=>{
+router.get("/count", async (request,response)=>{
     try {
         const countOfProducts = await productsLogic.getNumberOfProductsAsync();
         response.json(countOfProducts);
@@ -29,7 +30,7 @@ router.get("/count",async (request,response)=>{
 })
 
 // GET one product - http://localhost:3000/api/products/7
-router.get("/:_id", async (request, response) => {
+router.get("/:_id", isLoggedIn ,  async (request, response) => {
     try {
         const _id = request.params._id;
         const product = await productsLogic.getOneProductAsync(_id);
@@ -46,7 +47,7 @@ router.get("/:_id", async (request, response) => {
 
 
 // POST product - http://localhost:3000/api/products
-router.post("/", async (request, response) => {
+router.post("/", isAdmin, async (request, response) => {
     try {
         const product = new Product(request.body);
 
@@ -66,7 +67,7 @@ router.post("/", async (request, response) => {
 });
 
 // PUT product
-router.put("/:_id", async (request, response) => {
+router.put("/:_id",isAdmin, async (request, response) => {
     try {
         const product = new Product(request.body);
         product._id = request.params._id;

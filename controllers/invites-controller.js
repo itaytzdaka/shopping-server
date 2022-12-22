@@ -2,11 +2,12 @@ const express = require("express");
 const invitesLogic = require("../business-logic/invites-logic");
 const Invite = require("../models/invite");
 const { request, response } = require("express");
+const isLoggedIn = require("../middleware/is-logged-in");
 
 const router = express.Router();
 
 // GET all invites - http://localhost:3000/api/cities
-router.get("/", async (request, response) => {
+router.get("/", isLoggedIn, async (request, response) => {
     try {
         const invites = await invitesLogic.getAllInvitesWithUserAndCartAsync();
         response.json(invites);
@@ -17,7 +18,7 @@ router.get("/", async (request, response) => {
 });
 
 // GET all invites - http://localhost:3000/api/cities
-router.get("/deliveryFromToday", async (request, response) => {
+router.get("/deliveryFromToday",isLoggedIn, async (request, response) => {
     try {
         const date=new Date().toJSON();
         console.log("date");
@@ -30,8 +31,8 @@ router.get("/deliveryFromToday", async (request, response) => {
     }
 });
 
-// POST city - http://localhost:3000/api/cities
-router.post("/", async (request, response) => {
+// POST invite - http://localhost:3000/api/cities
+router.post("/", isLoggedIn, async (request, response) => {
     try {
         const invite = new Invite(request.body);
         // Validate user data: 

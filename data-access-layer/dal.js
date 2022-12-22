@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 function connectAsync() {
     return new Promise((resolve, reject) => {
 
@@ -9,7 +10,7 @@ function connectAsync() {
 
         console.log(connStr);
         // More config for mongo: 
-        const options = { useNewUrlParser: true, useUnifiedTopology: true };
+        const options = { useNewUrlParser: true ,useCreateIndex: true, useUnifiedTopology: true };
 
         // Connect: 
         mongoose.connect(connStr, options, (err, db) => {

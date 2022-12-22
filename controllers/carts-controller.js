@@ -1,11 +1,12 @@
 const express = require("express");
 const cartsLogic = require("../business-logic/carts-logic");
 const Cart = require("../models/cart");
+const isLoggedIn = require("../middleware/is-logged-in");
 
 const router = express.Router();
 
-// GET all cities names - http://localhost:3000/api/cities
-router.get("/", async (request, response) => {
+// GET all carts names - http://localhost:3000/api/cities
+router.get("/",isLoggedIn, async (request, response) => {
     try {
         const carts = await cartsLogic.getAllCartsAsync();
         response.json(carts);
@@ -17,8 +18,8 @@ router.get("/", async (request, response) => {
 
 
 
-// POST city - http://localhost:3000/api/cities
-router.post("/", async (request, response) => {
+// POST cart - http://localhost:3000/api/cities
+router.post("/",isLoggedIn, async (request, response) => {
     try {
         const cart = new Cart(request.body);
 
@@ -38,7 +39,7 @@ router.post("/", async (request, response) => {
 });
 
 
-router.get("/:_id", async (request, response) => {
+router.get("/:_id",isLoggedIn, async (request, response) => {
     try {
         const _id = request.params._id;
         const carts = await cartsLogic.getAllCartsOfUserAsync(_id);

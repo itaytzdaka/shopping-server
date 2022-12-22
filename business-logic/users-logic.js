@@ -15,7 +15,7 @@ function getAllUsersNamesIncludingCitiesAsync() {
 
 //login a user
 function loginAsync(credentials) {
-    return User.findOne({email: credentials.email, password: credentials.password}).exec();
+    return User.findOne({email: credentials.email, password: credentials.password}).select('-password').exec();
 }
 
 module.exports = {

@@ -11,23 +11,57 @@ require("./data-access-layer/dal");
 
 
 const express = require("express"); // Get Express.
-const cors = require("cors");
-const path = require("path");
-const fileUpload = require("express-fileupload");
-const fs = require("fs");
+const server = express(); // Create the server.
 
+
+const cors = require("cors");
+server.use(cors({
+    credentials: true,
+     origin: true,
+     exposedHeaders: ['set-cookie']
+}));
+
+// server.use(cors({credentials: true, origin: true}));
+const session = require("express-session");
+
+
+const MongoDBSession = require("connect-mongodb-session")(session);
+
+const connStr = config.mongodb.connectionString;
+const store = new MongoDBSession({
+    uri: connStr,
+    collection: "mySessions",
+});
+
+server.use(
+    session({
+        secret: "key that will sign cookie", // Encryption key for the session id
+        resave: false, // Start counting session time on each request.
+        cookie: {
+            secure: false,
+            maxAge: 600000
+        },
+        saveUninitialized: false, // Don't create session automatically.
+        store: store,
+        // unset: 'destroy'
+    })
+);
+
+const fs = require("fs");
 // if "./uploads" doesn't exist: 
-if (!fs.existsSync("./uploads")) {
-    fs.mkdirSync("./uploads");
+if (!fs.existsSync("./_front-end/uploads")) {
+    fs.mkdirSync("./_front-end/uploads");
 }
 
-const server = express(); // Create the server.
+const fileUpload = require("express-fileupload");
 // server.use(express.static(__dirname)); // "/" ==> "index.html"
-server.use(cors());
 server.use(fileUpload());
 
-server.use(express.static(path.join(__dirname, "./_front-end"))); 
-server.use(express.static(path.join(__dirname, "./uploads"))); 
+const path = require("path");
+server.use(express.static(path.join(__dirname, "./_front-end")));   // "/" ==> "./_front-end/index.html"
+// server.use(express.static(path.join(__dirname, "./uploads"))); 
+
+
 
 const productsController = require("./controllers/products-controller"); // Get the Controller.
 const citiesController = require("./controllers/cities-controller"); // Get the Controller.
@@ -52,7 +86,7 @@ server.use("/api/upload-image", imageController); // If client request the root 
 server.use("*", (request, response) => response.sendStatus(404)); // On any other route - return 404 error.
 
 
-server.use("*", (request, response) => {
+server.use("*", (request, response) => { // "/*" ==> "./_front-end/index.html"
     response.sendFile(path.join(__dirname, "./_front-end/index.html"));
 });
 

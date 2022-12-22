@@ -1,6 +1,7 @@
 const express = require("express");
 const cityLogic = require("../business-logic/cities-logic");
 const City = require("../models/city");
+const isLoggedIn = require("../middleware/is-logged-in");
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.get("/", async (request, response) => {
 });
 
 // POST city - http://localhost:3000/api/cities
-router.post("/", async (request, response) => {
+router.post("/", isLoggedIn, async (request, response) => {
     try {
         const city = new City(request.body);
 

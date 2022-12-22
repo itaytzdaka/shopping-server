@@ -1,11 +1,12 @@
 const express = require("express");
 const cartsItemsLogic = require("../business-logic/carts-items-logic");
 const CartItem = require("../models/cart-item");
+const isLoggedIn = require("../middleware/is-logged-in");
 
 const router = express.Router();
 
 // GET all carts items names - http://localhost:3000/api/cities
-router.get("/", async (request, response) => {
+router.get("/",isLoggedIn, async (request, response) => {
     try {
         const cartsItems = await cartsItemsLogic.getAllCartsItemsWithProductAndCartAsync();
         response.json(cartsItems);
@@ -15,7 +16,7 @@ router.get("/", async (request, response) => {
     }
 });
 
-router.get("/:_id", async (request, response) => {
+router.get("/:_id", isLoggedIn, async (request, response) => {
     try {
         const _id = request.params._id;
         const cartItems = await cartsItemsLogic.getAllItemsOfCartAsync(_id);
@@ -30,8 +31,8 @@ router.get("/:_id", async (request, response) => {
     }
 });
 
-// POST city - http://localhost:3000/api/cities
-router.post("/", async (request, response) => {
+// POST cart - http://localhost:3000/api/cities
+router.post("/", isLoggedIn, async (request, response) => {
     try {
         console.log("request.body");
         console.log(request.body);
@@ -52,7 +53,7 @@ router.post("/", async (request, response) => {
 });
 
 // PUT cart item
-router.put("/:_id", async (request, response) => {
+router.put("/:_id", isLoggedIn, async (request, response) => {
     try {
         const cartItem = new CartItem(request.body);
         cartItem._id = request.params._id;
@@ -76,7 +77,7 @@ router.put("/:_id", async (request, response) => {
     }
 });
 
-router.delete("/:_id", async (request, response) => {
+router.delete("/:_id", isLoggedIn, async (request, response) => {
     try {
         const _id = request.params._id;
         await cartsItemsLogic.deleteCartItemAsync(_id);
