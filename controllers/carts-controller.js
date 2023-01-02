@@ -5,7 +5,7 @@ const isLoggedIn = require("../middleware/is-logged-in");
 
 const router = express.Router();
 
-// GET all carts names - http://localhost:3000/api/cities
+// GET all carts - http://localhost:3000/api/carts
 router.get("/",isLoggedIn, async (request, response) => {
     try {
         const carts = await cartsLogic.getAllCartsAsync();
@@ -18,9 +18,10 @@ router.get("/",isLoggedIn, async (request, response) => {
 
 
 
-// POST cart - http://localhost:3000/api/cities
+// POST cart - http://localhost:3000/api/carts
 router.post("/",isLoggedIn, async (request, response) => {
     try {
+        console.log("create a new cart");
         const cart = new Cart(request.body);
 
         // Validate user data: 
@@ -38,6 +39,7 @@ router.post("/",isLoggedIn, async (request, response) => {
     }
 });
 
+// Get carts of user - http://localhost:3000/api/carts/:_id
 
 router.get("/:_id",isLoggedIn, async (request, response) => {
     try {

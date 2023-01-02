@@ -32,7 +32,7 @@ router.get("/getAllEmails",  async (request, response) => {
 // });
 
 
-// POST user - http://localhost:3000/api/users
+// POST a user - http://localhost:3000/api/users
 router.post("/", async (request, response) => {
     try {
         const user = new User(request.body);
@@ -53,6 +53,7 @@ router.post("/", async (request, response) => {
     }
 });
 
+// POST logging a user - http://localhost:3000/api/users/login
 router.post("/login", async (request, response) => {
     try {
         const credentials = request.body;
@@ -87,6 +88,7 @@ router.post("/login", async (request, response) => {
     }
 });
 
+// POST logout a user - http://localhost:3000/api/users/logout
 router.post("/logout", (request, response)=>{
     console.log("logout");
     console.log(request.session);
@@ -109,6 +111,7 @@ router.post("/logout", (request, response)=>{
     response.end();
 })
 
+// GET session of user - http://localhost:3000/api/users/user
 router.get("/user", (request, response)=>{
     request.session.user?  response.status(200).send(request.session.user) : response.status(200).send(null);
 });

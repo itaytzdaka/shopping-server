@@ -16,7 +16,7 @@ router.get("/", async (request, response) => {
     }
 });
 
-// POST category - http://localhost:3000/api/categories
+// POST a category - http://localhost:3000/api/categories
 router.post("/", isLoggedIn, async (request, response) => {
     try {
         const category = new Category(request.body);

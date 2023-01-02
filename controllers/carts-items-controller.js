@@ -5,7 +5,7 @@ const isLoggedIn = require("../middleware/is-logged-in");
 
 const router = express.Router();
 
-// GET all carts items names - http://localhost:3000/api/cities
+// GET all carts items - http://localhost:3000/api/cartsItems
 router.get("/",isLoggedIn, async (request, response) => {
     try {
         const cartsItems = await cartsItemsLogic.getAllCartsItemsWithProductAndCartAsync();
@@ -16,6 +16,7 @@ router.get("/",isLoggedIn, async (request, response) => {
     }
 });
 
+// GET carts item by cart_id - http://localhost:3000/api/cartsItems/:_id
 router.get("/:_id", isLoggedIn, async (request, response) => {
     try {
         const _id = request.params._id;
@@ -31,7 +32,7 @@ router.get("/:_id", isLoggedIn, async (request, response) => {
     }
 });
 
-// POST cart - http://localhost:3000/api/cities
+// POST cart - http://localhost:3000/api/cartsItems
 router.post("/", isLoggedIn, async (request, response) => {
     try {
         console.log("request.body");
@@ -52,7 +53,7 @@ router.post("/", isLoggedIn, async (request, response) => {
     }
 });
 
-// PUT cart item
+// PUT cart-item - http://localhost:3000/api/cartsItems/:_id
 router.put("/:_id", isLoggedIn, async (request, response) => {
     try {
         const cartItem = new CartItem(request.body);
@@ -77,6 +78,7 @@ router.put("/:_id", isLoggedIn, async (request, response) => {
     }
 });
 
+// DELETE cart item by cart-item_id - http://localhost:3000/api/cartsItems/:_id
 router.delete("/:_id", isLoggedIn, async (request, response) => {
     try {
         const _id = request.params._id;

@@ -39,7 +39,7 @@ server.use(
         resave: false, // Start counting session time on each request.
         cookie: {
             secure: false,
-            maxAge: 600000
+            maxAge: 30*60*1000 //(60*1000 = 1 min)
         },
         saveUninitialized: false, // Don't create session automatically.
         store: store,

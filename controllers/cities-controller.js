@@ -16,7 +16,7 @@ router.get("/", async (request, response) => {
     }
 });
 
-// POST city - http://localhost:3000/api/cities
+// POST a city - http://localhost:3000/api/cities
 router.post("/", isLoggedIn, async (request, response) => {
     try {
         const city = new City(request.body);

@@ -6,7 +6,7 @@ const isLoggedIn = require("../middleware/is-logged-in");
 
 const router = express.Router();
 
-// GET all invites - http://localhost:3000/api/cities
+// GET all invites - http://localhost:3000/api/invites
 router.get("/", isLoggedIn, async (request, response) => {
     try {
         const invites = await invitesLogic.getAllInvitesWithUserAndCartAsync();
@@ -17,7 +17,7 @@ router.get("/", isLoggedIn, async (request, response) => {
     }
 });
 
-// GET all invites - http://localhost:3000/api/cities
+// GET all invites - http://localhost:3000/api/invites
 router.get("/deliveryFromToday",isLoggedIn, async (request, response) => {
     try {
         const date=new Date().toJSON();
@@ -31,7 +31,7 @@ router.get("/deliveryFromToday",isLoggedIn, async (request, response) => {
     }
 });
 
-// POST invite - http://localhost:3000/api/cities
+// POST an invite - http://localhost:3000/api/invites
 router.post("/", isLoggedIn, async (request, response) => {
     try {
         const invite = new Invite(request.body);
@@ -50,6 +50,7 @@ router.post("/", isLoggedIn, async (request, response) => {
     }
 });
 
+// GET number of invites - http://localhost:3000/api/invites/count
 router.get("/count",async (request,response)=>{
     try {
         const countOfInvites = await invitesLogic.getNumberOfInvitesAsync();
@@ -60,6 +61,7 @@ router.get("/count",async (request,response)=>{
     }
 })
 
+// GET number of invites - http://localhost:3000/api/invites/:_id
 router.get("/:_id", async (request, response) => {
     try {
         const _id = request.params._id;

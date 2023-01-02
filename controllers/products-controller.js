@@ -19,6 +19,7 @@ router.get("/", async (request, response) => {
     }
 });
 
+// GET number of products - http://localhost:3000/api/products/count
 router.get("/count", async (request,response)=>{
     try {
         const countOfProducts = await productsLogic.getNumberOfProductsAsync();
@@ -29,7 +30,7 @@ router.get("/count", async (request,response)=>{
     }
 })
 
-// GET one product - http://localhost:3000/api/products/7
+// GET one product by product_id - http://localhost:3000/api/products/:_id
 router.get("/:_id", isLoggedIn ,  async (request, response) => {
     try {
         const _id = request.params._id;
@@ -66,8 +67,8 @@ router.post("/", isAdmin, async (request, response) => {
     }
 });
 
-// PUT product
-router.put("/:_id",isAdmin, async (request, response) => {
+// PUT product by product_id - http://localhost:3000/api/products/:_id
+router.put("/:_id", isAdmin, async (request, response) => {
     try {
         const product = new Product(request.body);
         product._id = request.params._id;
