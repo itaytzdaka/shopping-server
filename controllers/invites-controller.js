@@ -61,7 +61,7 @@ router.get("/count",async (request,response)=>{
     }
 })
 
-// GET number of invites - http://localhost:3000/api/invites/:_id
+// GET number of invites of user by user_id - http://localhost:3000/api/invites/:_id
 router.get("/:_id", async (request, response) => {
     try {
         const _id = request.params._id;
