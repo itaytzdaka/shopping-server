@@ -1,10 +1,7 @@
 // global.config = require("./config.json"); // Load once config.json file.
-if (process.env.PORT) {
-    global.config = require("./config-prod");
-}
-else {
-    global.config = require("./config-dev");
-}
+
+global.config = require(process.env.NODE_ENV === "production" ? "./config-prod" : "./config-dev");
+
 
 // Connect once to MongoDB:
 require("./data-access-layer/dal");
