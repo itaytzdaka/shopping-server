@@ -2,7 +2,7 @@
     "isProduction":false,
     "isDevelopment": true,
     "mongodb": {
-        "connectionString": "mongodb://localhost:27017/Northwind"
+        "connectionString": "mongodb://localhost:27017/Shopping"
     },
     "jwt": {
         "secretKey": "jwtSecretKey"

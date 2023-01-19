@@ -58,8 +58,7 @@ const fileUpload = require("express-fileupload");
 server.use(fileUpload());
 
 const path = require("path");
-server.use(express.static(path.join(__dirname, "./_front-end")));   // "/" ==> "./_front-end/index.html"
-// server.use(express.static(path.join(__dirname, "./uploads"))); 
+server.use(express.static(path.join(__dirname, "./_front-end")));   //serve "/_front-end" folder as a root "/" route.
 
 
 
@@ -83,13 +82,13 @@ server.use("/api/carts", cartsController); // If client request the root address
 server.use("/api/cartsItems", cartsItemsController); // If client request the root address - give the control to productsController router.
 server.use("/api/invites", invitesController); // If client request the root address - give the control to productsController router.
 server.use("/api/upload-image", imageController); // If client request the root address - give the control to productsController router.
-server.use("*", (request, response) => response.sendStatus(404)); // On any other route - return 404 error.
+server.use("/api/*", (request, response) => response.sendStatus(404)); // On any other route - return 404 error.
 
 
-server.use("*", (request, response) => { // "/*" ==> "./_front-end/index.html"
+server.use("*", (request, response) => { //serve "index.html" for any other request route
     response.sendFile(path.join(__dirname, "./_front-end/index.html"));
 });
 
 // Start the server:
 const port = process.env.PORT || 3000;
-server.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`)); // the server listening to requests now
