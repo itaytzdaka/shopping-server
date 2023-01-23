@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const uuid = require("uuid");
 const fs = require('fs')
-const isLoggedIn = require("../middleware/is-logged-in");
+const isAdmin = require("../middleware/is-admin");
 
-router.post("/", isLoggedIn, (request, response) => {
+router.post("/", isAdmin, (request, response) => {
     console.log("request.files");
     console.log(request.files);
     console.log(request.files.image);
@@ -22,7 +22,7 @@ router.post("/", isLoggedIn, (request, response) => {
     }
 
     const newFileName = uuid.v4() + extension;
-    image.mv("._front-end/uploads/" + newFileName);
+    image.mv("_front-end/uploads/" + newFileName);
     image.name=newFileName;
     response.status(201).json(image);
 
@@ -30,7 +30,7 @@ router.post("/", isLoggedIn, (request, response) => {
 
 });
 
-router.delete("/:imageName", isLoggedIn, (request, response) => {
+router.delete("/:imageName", isAdmin, (request, response) => {
     try {
         const imageName = request.params.imageName;
         const path="./uploads/"+imageName;
