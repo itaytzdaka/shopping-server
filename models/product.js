@@ -9,7 +9,7 @@ const ProductSchema = mongoose.Schema({
         type: String,
         required: [true, "Missing name"],
         minlength: [3, "Name too short"],
-        maxlength: [100, "Name too long"]
+        maxlength: [20, "Name too long"]
         // validate: { // Custom Validator
         //     validator: value => /^[A-Z].*$/.test(value),
         //     message: "Name must start with a capital letter"
@@ -21,6 +21,17 @@ const ProductSchema = mongoose.Schema({
         required: [true, "Missing price"],
         min: [0, "Price can't be negative"],
         max: [1000, "Price can't exceed 1000"]
+    },
+
+    type: {
+        type: String,
+        required: [true, "Missing type name"],
+        minlength: [1, "Name too short"],
+        maxlength: [10, "Name too long"]
+        // validate: { // Custom Validator
+        //     validator: value => /^[A-Z].*$/.test(value),
+        //     message: "Name must start with a capital letter"
+        // }
     },
 
     image: {
