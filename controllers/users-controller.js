@@ -77,9 +77,10 @@ router.post("/login", async (request, response) => {
         console.log(request.session.id);    
         console.log(request.session);    
 
-        const token = jwt.sign({ user }, config.jwt.secretKey, { expiresIn: "30m" });
+        // const token = jwt.sign({ user }, config.jwt.secretKey, { expiresIn: "30m" });
         // console.log(token);
-        response.json({ user, token });
+        // response.json({ user, token });
+        response.json({ user });
         // response.json(user);
     }
     catch (err) {

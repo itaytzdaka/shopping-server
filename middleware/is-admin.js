@@ -40,7 +40,14 @@ const jwt = require("jsonwebtoken");
 // }
 
 function isAdmin(request, response, next) {
-    if(request.session.user.isAdmin){
+
+      
+    if(!request.session || !request.session.user){
+        response.status(401).send("You are not logged-in"); 
+        return;
+    }
+
+    if(request.session?.user?.isAdmin){
         next()
     }
 
