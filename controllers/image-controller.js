@@ -4,10 +4,9 @@ const uuid = require("uuid");
 const fs = require('fs')
 const isAdmin = require("../middleware/is-admin");
 
+// Post img
 router.post("/", isAdmin, (request, response) => {
-    console.log("request.files");
-    console.log(request.files);
-    console.log(request.files.image);
+
     if(!request.files) {
         response.status(400).send("No file sent");
         return;
@@ -25,8 +24,6 @@ router.post("/", isAdmin, (request, response) => {
     image.mv("_front-end/uploads/" + newFileName);
     image.name=newFileName;
     response.status(201).json(image);
-
-    // response.end();
 
 });
 

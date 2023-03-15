@@ -4,11 +4,9 @@ const mongoose = require("mongoose");
 function connectAsync() {
     return new Promise((resolve, reject) => {
 
-        // ConnectionString: מחרוזת אחת המכילה את כל פרטי ההתחברות למסד הנתונים
-        // const connStr = `mongodb://${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.database}`; // mongodb://localhost:27017/Northwind
+        // const connStr = `mongodb://host:port/database`;
         const connStr = process.env.MONGODB_CONNECTION_STRING;
 
-        console.log(connStr);
         // More config for mongo: 
         const options = { useNewUrlParser: true ,useCreateIndex: true, useUnifiedTopology: true };
 

@@ -1,7 +1,6 @@
 const express = require("express");
 const invitesLogic = require("../business-logic/invites-logic");
 const Invite = require("../models/invite");
-const { request, response } = require("express");
 const isLoggedIn = require("../middleware/is-logged-in");
 
 const router = express.Router();
@@ -17,7 +16,7 @@ router.get("/", isLoggedIn, async (request, response) => {
     }
 });
 
-// GET all invites - http://localhost:3000/api/invites
+// GET all invites - http://localhost:3000/api/invites/deliveryFromToday
 router.get("/deliveryFromToday",isLoggedIn, async (request, response) => {
     try {
         const date=new Date().toJSON();

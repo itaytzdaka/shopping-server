@@ -1,6 +1,5 @@
 const Cart = require("../models/cart");
 
-// Get all users names: 
 function getAllCartsAsync() {
     return Cart.find().populate("user").sort("date").exec(); // exec returns a Promise.
 }

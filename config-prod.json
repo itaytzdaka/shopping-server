@@ -3,9 +3,6 @@
     "isDevelopment": false,
     "mongodb": {
         
-        "connectionString": "mongodb+srv://Itay:54921812iI@cluster0.xajh2jh.mongodb.net/Shopping?retryWrites=true&w=majority"
-    },
-    "jwt": {
-        "secretKey": "jwtSecretKey"
+        "connectionString": ""
     }
 }

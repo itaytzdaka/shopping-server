@@ -1,6 +1,5 @@
 const Category = require("../models/category");
 
-// Get all users names: 
 function getAllCategories() {
     return Category.find().exec(); // exec returns a Promise.
 }

@@ -1,15 +1,10 @@
 const express = require("express");
 const userLogic = require("../business-logic/users-logic");
 const User = require("../models/user");
-const jwt = require("jsonwebtoken");
-const { route } = require("./invites-controller");
-const hash = require("../helpers/hash");
-const isLoggedIn = require("../middleware/is-logged-in");
-const isAdmin = require("../middleware/is-admin");
 
 const router = express.Router();
 
-// GET all users Emails - http://localhost:3000/api/users
+// GET all users Emails - http://localhost:3000/api/users/getAllEmails
 router.get("/getAllEmails",  async (request, response) => {
     try {
         const users = await userLogic.getAllUsersEmailsAsync();
@@ -20,23 +15,11 @@ router.get("/getAllEmails",  async (request, response) => {
     }
 });
 
-// GET all users - http://localhost:3000/api/users
-// router.get("/", async (request, response) => {
-//     try {
-//         const users = await userLogic.getAllUsersNamesIncludingCitiesAsync();
-//         response.json(users);
-//     }
-//     catch (err) {
-//         response.status(500).send(err.message);
-//     }
-// });
-
 
 // POST a user - http://localhost:3000/api/users
 router.post("/", async (request, response) => {
     try {
         const user = new User(request.body);
-        // user.password=hash(user.password);
 
         // Validate user data: 
         const error = await user.validate();
@@ -46,7 +29,7 @@ router.post("/", async (request, response) => {
         }
 
         const addedUser = await userLogic.addUserAsync(user);
-        addedUser.password = null;
+        addedUser.password = null; //delete user password
 
         response.status(201).json(addedUser);
     }
@@ -59,10 +42,6 @@ router.post("/", async (request, response) => {
 router.post("/login", async (request, response) => {
     try {
         const credentials = request.body;
-        // credentials.password=hash(credentials.password);
-
-        console.log("credentials");
-        console.log(credentials);
 
         const user = await userLogic.loginAsync(credentials);
         
@@ -71,19 +50,14 @@ router.post("/login", async (request, response) => {
             response.status(401).send("Illegal username or password");
             return;
         }
-        console.log("response login user: ", user);
 
-
+        //save user data as a cookie in the request session
         request.session.user=user;
 
         console.log(request.session.id);    
         console.log(request.session);    
 
-        // const token = jwt.sign({ user }, config.jwt.secretKey, { expiresIn: "30m" });
-        // console.log(token);
-        // response.json({ user, token });
-        response.json({ user });
-        // response.json(user);
+        response.json({ user }); //return user data without password
     }
     catch (err) {
         console.log(err.message);
@@ -96,10 +70,8 @@ router.post("/logout", (request, response)=>{
     console.log("logout");
     console.log(request.session);
     console.log(request.session.id);    
-    // request.session.destroy();
 
-    // request.session = null; 
-
+    //delete user session
     request.session.destroy((err)=>{
         if(err){
             console.log(err);
@@ -107,17 +79,13 @@ router.post("/logout", (request, response)=>{
         }
     })
 
-    console.log(request.session)
-
-
-    // response.redirect("/home/login");
     response.end();
 })
 
 // GET session of user - http://localhost:3000/api/users/user
-router.get("/user", (request, response)=>{
-    request.session.user?  response.status(200).send(request.session.user) : response.status(200).send(null);
-});
+// router.get("/user", (request, response)=>{
+//     request.session.user?  response.status(200).send(request.session.user) : response.status(200).send(null);
+// });
 
 
 

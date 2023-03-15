@@ -1,21 +1,19 @@
 const User = require("../models/user");
 const hash = require("../helpers/hash");
 
-// Get all users names: 
+// Get all users emails: 
 function getAllUsersEmailsAsync() {
     return User.find({},{_id: 0,email: 1}).exec(); // exec returns a Promise.
 }
 
+//add a new registered user
 function addUserAsync(userToAdd){
     userToAdd.password = hash(userToAdd.password);
     return userToAdd.save(); // save returns a Promise
 }
 
-function getAllUsersNamesIncludingCitiesAsync() {
-    return User.find().populate("city").exec();
-}
 
-//login a user
+//get user data by email and password
 function loginAsync(credentials) {
     credentials.password = hash(credentials.password);
     return User.findOne({email: credentials.email, password: credentials.password}).select('-password').exec();
@@ -24,6 +22,5 @@ function loginAsync(credentials) {
 module.exports = {
     getAllUsersEmailsAsync,
     addUserAsync,
-    getAllUsersNamesIncludingCitiesAsync,
     loginAsync
 };

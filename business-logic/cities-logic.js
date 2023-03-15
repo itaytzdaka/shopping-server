@@ -1,6 +1,5 @@
 const City = require("../models/city");
 
-// Get all users names: 
 function getAllCitiesAsync() {
     return City.find().exec(); // exec returns a Promise.
 }
