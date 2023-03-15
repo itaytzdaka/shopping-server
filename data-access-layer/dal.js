@@ -6,7 +6,7 @@ function connectAsync() {
 
         // ConnectionString: מחרוזת אחת המכילה את כל פרטי ההתחברות למסד הנתונים
         // const connStr = `mongodb://${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.database}`; // mongodb://localhost:27017/Northwind
-        const connStr = config.mongodb.connectionString;
+        const connStr = process.env.MONGODB_CONNECTION_STRING;
 
         console.log(connStr);
         // More config for mongo: 

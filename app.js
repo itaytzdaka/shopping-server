@@ -1,7 +1,11 @@
 // global.config = require("./config.json"); // Load once config.json file.
 
-global.config = require(process.env.NODE_ENV === "production" ? "./config-prod" : "./config-dev");
+// global.config = require(process.env.NODE_ENV === "production" ? "./config-prod" : "./config-dev");
 
+//if development, load .env file
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 
 // Connect once to MongoDB:
 require("./data-access-layer/dal");
@@ -24,7 +28,8 @@ const session = require("express-session");
 
 const MongoDBSession = require("connect-mongodb-session")(session);
 
-const connStr = config.mongodb.connectionString;
+// const connStr = config.mongodb.connectionString;
+const connStr = process.env.MONGODB_CONNECTION_STRING;
 const store = new MongoDBSession({
     uri: connStr,
     collection: "mySessions",

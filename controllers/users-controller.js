@@ -46,6 +46,8 @@ router.post("/", async (request, response) => {
         }
 
         const addedUser = await userLogic.addUserAsync(user);
+        addedUser.password = null;
+
         response.status(201).json(addedUser);
     }
     catch (err) {
@@ -69,7 +71,7 @@ router.post("/login", async (request, response) => {
             response.status(401).send("Illegal username or password");
             return;
         }
-        console.log(user);
+        console.log("response login user: ", user);
 
 
         request.session.user=user;
